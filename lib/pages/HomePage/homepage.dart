@@ -55,29 +55,31 @@ class Homepage extends StatelessWidget {
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Obx(
-                  () => Row(
-                    children: newsControllor.trendingNews
-                        .map(
-                          (e) => InkWell(
-                            onTap: () {
-                              Get.to(
-                                NewsDetails(
-                                  title: e.title.toString(),
-                                  imgUrl: e.urlToImage.toString(),
-                                  description: e.content.toString(),
-                                  author: e.author.toString(),
+                  () => newsControllor.istrandinloading.value
+                      ? CircularProgressIndicator()
+                      : Row(
+                          children: newsControllor.trendingNews
+                              .map(
+                                (e) => InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      NewsDetails(
+                                        title: e.title.toString(),
+                                        imgUrl: e.urlToImage.toString(),
+                                        description: e.content.toString(),
+                                        author: e.author.toString(),
+                                      ),
+                                    );
+                                  },
+                                  child: Trandings(
+                                    authorname: e.author.toString(),
+                                    newsTitle: e.title.toString(),
+                                    url: e.urlToImage.toString(),
+                                  ),
                                 ),
-                              );
-                            },
-                            child: Trandings(
-                              authorname: e.author.toString(),
-                              newsTitle: e.title.toString(),
-                              url: e.urlToImage.toString(),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
+                              )
+                              .toList(),
+                        ),
                 )),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -96,31 +98,33 @@ class Homepage extends StatelessWidget {
               ),
             ),
             Obx(
-              () => Column(
-                children: newsControllor.newsForYou
-                    .map(
-                      (e) => InkWell(
-                        onTap: () {
-                          Get.to(
-                            NewsDetails(
-                              title: e.title.toString(),
-                              imgUrl: e.urlToImage.toString(),
-                              description: e.content.toString(),
-                              author: e.author.toString(),
+              () => newsControllor.isNewTOYouloading.value
+                  ? CircularProgressIndicator()
+                  : Column(
+                      children: newsControllor.newsForYou5
+                          .map(
+                            (e) => InkWell(
+                              onTap: () {
+                                Get.to(
+                                  NewsDetails(
+                                    title: e.title.toString(),
+                                    imgUrl: e.urlToImage.toString(),
+                                    description: e.content.toString(),
+                                    author: e.author.toString(),
+                                  ),
+                                );
+                              },
+                              child: NewsforYou(
+                                title: e.title ?? "title",
+                                author: e.author ?? "Author",
+                                img_url: e.urlToImage ??
+                                    "https://img.freepik.com/free-photo/3d-rendering-illustration-letter-blocks-forming-word-news-white-background_181624-60840.jpg?w=1060&t=st=1709550375~exp=1709550975~hmac=db3d2b779b436d8394ae236136d9a982355dba7c3b490edfaa24e9a7b3124297",
+                                // subtitle: e?.source.name.toString() ?? "subtitle",
+                              ),
                             ),
-                          );
-                        },
-                        child: NewsforYou(
-                          title: e.title ?? "title",
-                          author: e.author ?? "Author",
-                          img_url: e.urlToImage ??
-                              "https://img.freepik.com/free-photo/3d-rendering-illustration-letter-blocks-forming-word-news-white-background_181624-60840.jpg?w=1060&t=st=1709550375~exp=1709550975~hmac=db3d2b779b436d8394ae236136d9a982355dba7c3b490edfaa24e9a7b3124297",
-                          // subtitle: e?.source.name.toString() ?? "subtitle",
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
+                          )
+                          .toList(),
+                    ),
             ),
             //  NewsforYou(
             //   title: "title",

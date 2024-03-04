@@ -37,6 +37,7 @@ class NewsDetails extends StatelessWidget {
                 Center(
                   child: Container(
                     height: 220,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.network(

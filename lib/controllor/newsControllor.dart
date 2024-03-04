@@ -5,7 +5,11 @@ import 'package:newsapp/Model/NewsModel.dart';
 
 class NewsController extends GetxController {
   RxList<NewsModel> newsForYou = <NewsModel>[].obs;
+  RxList<NewsModel> newsForYou5 = <NewsModel>[].obs;
   RxList<NewsModel> trendingNews = <NewsModel>[].obs;
+  RxBool istrandinloading = false.obs;
+  RxBool isNewTOYouloading = false.obs;
+
   void onInit() async {
     super.onInit();
     await getTrendingNews();
@@ -13,6 +17,7 @@ class NewsController extends GetxController {
   }
 
   Future<void> getTrendingNews() async {
+    istrandinloading.value = true;
     print("hello");
     var baseUrl =
         "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=ea97c6bb67b040759084c3c20ea5e5cf";
@@ -38,9 +43,11 @@ class NewsController extends GetxController {
     } catch (e) {
       // print("Error: $e");
     }
+    istrandinloading.value = false;
   }
 
   Future<void> getNewsForYou() async {
+    isNewTOYouloading.value = true;
     print("hello");
     var baseUrl =
         "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=ea97c6bb67b040759084c3c20ea5e5cf";
@@ -58,7 +65,7 @@ class NewsController extends GetxController {
         for (var news in articles) {
           newsForYou.add(NewsModel.fromJson(news));
         }
-
+        newsForYou5 = newsForYou.sublist(0, 10).obs;
         print(newsForYou);
       } else {
         print("Request failed with status: ${response.statusCode}");
@@ -67,5 +74,6 @@ class NewsController extends GetxController {
     } catch (e) {
       print("Error: $e");
     }
+    isNewTOYouloading.value = false;
   }
 }
